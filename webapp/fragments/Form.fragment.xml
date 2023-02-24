@@ -37,6 +37,26 @@
 									<Input id="emailForm"/>
 								</form:fields>
 							</form:FormElement>
+							<form:FormElement
+								id="statusElement"
+								label="Status"
+							>
+								<form:fields>
+									<RadioButtonGroup
+										id="statusForm"
+										columns="4"
+									>
+										<RadioButton
+											id="ativo"
+											text="Ativo"
+										/>
+										<RadioButton
+											id="inativo"
+											text="Inativo"
+										/>
+									</RadioButtonGroup>
+								</form:fields>
+							</form:FormElement>
 						</form:formElements>
 					</form:FormContainer>
 				</form:formContainers>
