@@ -30,9 +30,26 @@ sap.ui.define(
         });
       },
 
-      async getUsers(page) {
-        const path = `getUsers?page=${page}`;
+      _user(form) {
+        return JSON.stringify({
+          name: form.name,
+          email: form.email,
+          status: form.status,
+        });
+      },
+
+      async getUsers(page, name = "", email = "", statusId = "-1") {
+        const path = `getUsers?page=${page}&name=${name}&email=${email}&statusId=${statusId}`;
         return this._request(path);
+      },
+
+      async addUser(user) {
+        this._request("create", "POST", user);
+      },
+
+      async updateUser(user) {
+        const path = `update?userId=${user.id}`;
+        return this._request(path, "PUT", this._user(user));
       },
 
       async removeUser(userId) {

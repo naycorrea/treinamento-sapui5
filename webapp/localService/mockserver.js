@@ -8,25 +8,56 @@ sap.ui.define(
     async function getRequests() {
       const mockdata = `${originPath}/localService/mockdata`;
 
-      const [usersFirstPage, usersSecondPage] = await Promise.all([
-        ReaderJson.getJson(`${mockdata}/usersFirstPage.json`),
-        ReaderJson.getJson(`${mockdata}/usersSecondPage.json`),
-      ]);
+      const [usersFirstPage, usersSecondPage, user, userFilter] =
+        await Promise.all([
+          ReaderJson.getJson(`${mockdata}/usersFirstPage.json`),
+          ReaderJson.getJson(`${mockdata}/usersSecondPage.json`),
+          ReaderJson.getJson(`${mockdata}/user.json`),
+          ReaderJson.getJson(`${mockdata}/userFilter.json`),
+        ]);
 
       return [
         {
           method: "GET",
-          path: /getUsers\?page=0?/,
+          path: /getUsers\?page=0&name=(.+)?&email=(.+)?&statusId=(.+)?/,
           response: (oXhr) => {
-            oXhr.respondJSON(200, {}, usersFirstPage);
+            console.log(oXhr.url);
+
+            if (
+              oXhr.url.includes("Monique") ||
+              oXhr.url.includes("mjobke0") ||
+              oXhr.url.includes("statusId=0")
+            ) {
+              oXhr.respondJSON(200, {}, userFilter);
+            } else {
+              oXhr.respondJSON(200, {}, usersFirstPage);
+            }
+
             return true;
           },
         },
         {
           method: "GET",
-          path: /getUsers\?page=1?/,
+          path: /getUsers\?page=1&name=(.+)?&email=(.+)?&statusId=(.+)?/,
           response: (oXhr) => {
             oXhr.respondJSON(200, {}, usersSecondPage);
+            return true;
+          },
+        },
+        {
+          method: "POST",
+          path: /create/,
+          response: (oXhr) => {
+            console.log(oXhr);
+            oXhr.respondJSON(200, {}, user);
+            return true;
+          },
+        },
+        {
+          method: "PUT",
+          path: /update\?userId=(.+)?/,
+          response: (oXhr) => {
+            oXhr.respondJSON(200, {}, user);
             return true;
           },
         },

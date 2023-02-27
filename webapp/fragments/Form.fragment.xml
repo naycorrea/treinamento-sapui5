@@ -26,7 +26,12 @@
 								label="Nome"
 							>
 								<form:fields>
-									<Input id="nameForm"/>
+									<Input
+										id="nameForm"
+										value="{
+											path: 'user>/name'
+										}"
+									/>
 								</form:fields>
 							</form:FormElement>
 							<form:FormElement
@@ -34,7 +39,12 @@
 								label="E-mail"
 							>
 								<form:fields>
-									<Input id="emailForm"/>
+									<Input
+										id="emailForm"
+										value="{
+											path: 'user>/email'
+										}"
+									/>
 								</form:fields>
 							</form:FormElement>
 							<form:FormElement
@@ -45,6 +55,9 @@
 									<RadioButtonGroup
 										id="statusForm"
 										columns="4"
+										selectedIndex="{
+											path: 'user>/statusId'
+										}"
 									>
 										<RadioButton
 											id="ativo"
@@ -66,6 +79,7 @@
 			<Button
 				text="Salvar"
 				type="Emphasized"
+				press=".save"
 			/>
 		</beginButton>
 		<endButton>
